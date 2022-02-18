@@ -77,8 +77,12 @@
 		</view>
 		<!-- 记一笔 -->
 		<u-popup :show="showAdd" :round="10" @close="closeAdd" :safeAreaInsetTop="true" :closeOnClickOverlay="false">
+			<view class="tool-box flex-box justify-space-between">
+				<view @click="closeAdd">取消</view>
+				<view @click="sumbitAddForm">创建</view>
+			</view>
 			<view class="add-box">
-				<u--form labelPosition="left" :model="addForm" ref="addForm" :rules="addFormRules">
+				<u--form :model="addForm" ref="addForm" :rules="addFormRules">
 					<u-form-item label="商品" borderBottom prop="payContent">
 						<u--input v-model="addForm.payContent" border="surround"></u--input>
 					</u-form-item>
@@ -89,7 +93,7 @@
 						<view style="padding:20rpx" class="fs16 font500" @click="changeToday">{{today}}</view>
 					</u-form-item>
 				</u--form>
-				<u-button type="primary" text="确定" @click="sumbitAddForm"></u-button>
+				<u-button type="primary" text="下一个" @click="addNext"></u-button>
 			</view>
 		</u-popup>
 		<u-datetime-picker :show="showAddCalendar" v-model="calendarTime" mode="date" @cancel="closeAddPicker"
@@ -112,7 +116,7 @@
 						required: true,
 						message: '请填写金额',
 						trigger: 'blur'
-					}],
+					}]
 				},
 				showAddCalendar: false,
 				addForm: {
@@ -163,6 +167,7 @@
 			},
 			closeAdd() {
 				this.showAdd = false
+				this.$refs.addForm.resetFields()
 			},
 			changeToday() {
 				this.showAddCalendar = true
@@ -174,12 +179,20 @@
 				this.today = this.utilJs.formatTime(new Date(val.value))
 				this.closeAddPicker()
 			},
+			addNext(){
+				this.$refs.addForm.validate().then(res=>{
+					if(res){
+						uni.setStorageSync(this.today,this.addForm)
+						this.$refs.addForm.resetFields()
+					}
+				})
+			},
 			sumbitAddForm() {
-				console.log("*&^%^");
-				this.$refs.addForm.validate(vali => {
-					console.log(vali);
-					if (vali) {
-						console.log("*&^%^&*");
+				console.log(this.$refs.addForm);
+				this.$refs.addForm.validate().then(res=>{
+					if(res){
+						uni.setStorageSync(this.today,this.addForm)
+						this.closeAdd()
 					}
 				})
 			}
@@ -228,7 +241,12 @@
 		}
 	}
 
+	.tool-box {
+		margin: 30rpx 20rpx 0 20rpx;
+		color: #2979ff;
+	}
+
 	.add-box {
-		margin: 30rpx 20rpx;
+		margin: 30rpx 20rpx 50rpx 20rpx;
 	}
 </style>
