@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "mittwoch"
+				"navigationBarTitleText": "用户钱包"
 			}
 		}
 	],
@@ -12,5 +12,24 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#666666",
+		"selectedColor": "#4783FF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "",
+				"iconPath": "static/health_icon_default.png",
+				"selectedIconPath": "static/health_icon_active.png",
+				"text": "钱包"
+			},
+			{
+				"pagePath": "",
+				"iconPath": "static/family_icon_default.png",
+				"selectedIconPath": "static/family_icon_active.png",
+				"text": "体重"
+			}
+		]
 	}
 }
